@@ -1,0 +1,36 @@
+using UnityEngine;
+
+public class ObjectInstantiator : MonoBehaviour
+{
+    public GameObject[] objectsToInstantiate; // Objects to randomly instantiate.
+    public float instantiationDuration = 2.0f; // Duration for which the instantiated object exists.
+    public float spawnOffset = 1.0f; // Distance in front of the object's position.
+
+    void Start()
+    {
+        InstantiateRandomObject();
+    }
+
+    void Update()
+    {
+        // For testing purposes, you can also instantiate objects when pressing a key, etc.
+        // Example: if (Input.GetKeyDown(KeyCode.Space)) InstantiateRandomObject();
+    }
+
+    void InstantiateRandomObject()
+    {
+        // Randomly instantiate an object from the array
+        if (objectsToInstantiate.Length > 0)
+        {
+            GameObject objectToInstantiate = objectsToInstantiate[Random.Range(0, objectsToInstantiate.Length)];
+            if (objectToInstantiate != null)
+            {
+                // Adjust the spawn position based on the current GameObject's position and spawnOffset
+                GameObject instantiatedObject = Instantiate(objectToInstantiate, transform.position + transform.forward * spawnOffset, transform.rotation);
+
+                // Destroy the instantiated object after the specified duration
+                Destroy(instantiatedObject, instantiationDuration);
+            }
+        }
+    }
+}
